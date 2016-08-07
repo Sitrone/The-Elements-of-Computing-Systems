@@ -4,10 +4,8 @@
 
 2、[Software and projects](http://www.nand2tetris.org/software.php)
 
-###重点
+### 重点  
 完成project，并进行总结
 
-###next
+### next
 完成这个之后，学习CSAPP加强巩固
-
-
