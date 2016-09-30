@@ -1,4 +1,4 @@
-﻿
+﻿package com.elements.assembler;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -91,6 +91,7 @@ public class Assembler {
 					if(!isNum(aCmd)){
 						if(!(sTable.contains(aCmd))){
 							sTable.addEntry(aCmd, add++);
+							mCode += zfill(mCode);
 						}else{
 							mCode += zfill(Integer.toBinaryString(sTable.getAddress(aCmd)));
 						}
