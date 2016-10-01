@@ -1,4 +1,6 @@
-﻿public class Parser {
+﻿package com.elements.assembler;
+
+public class Parser {
 	/**
 	 * 
 	 * @return

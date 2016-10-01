@@ -19,12 +19,25 @@ public class Assembler {
 		sTable = new SymboleTable();
 	}
 	
+	/**
+	 * 遍历过程分为两遍<br>
+	 * 1. 建立每条命令和其对应的地址，不生成任何代码，程序处理每一行，利用数字来记录ROM地址，这个数字从0开始，
+	 * 不管碰到C指令还是A指令，自加1；碰到伪指令，将伪指令加入符号表中<br>
+	 * 2.语法分析，对每一行进行语法分析，对A，C指令分别进行处理<br>
+	 * 注意： 特别注意单行中存在注释的情况
+	 * @param inFile String
+	 * @param outFile String
+	 */
 	public void exec(String inFile, String outFile){
 		process1(inFile);
 		
 		process2(inFile, outFile);
 	}
 	
+	/**
+	 * 第一遍遍历
+	 * @param inFile
+	 */
 	private void process1(String inFile){
 		int i = 0;
 		try {

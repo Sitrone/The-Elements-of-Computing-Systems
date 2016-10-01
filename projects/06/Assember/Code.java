@@ -1,4 +1,6 @@
-﻿import java.util.Collections;
+﻿package com.elements.assembler;
+
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,4 +1,6 @@
-﻿import java.util.HashMap;
+﻿package com.elements.assembler;
+
+import java.util.HashMap;
 import java.util.Map;
 
 public class SymboleTable {
