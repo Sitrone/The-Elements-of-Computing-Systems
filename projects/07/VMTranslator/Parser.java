@@ -66,8 +66,8 @@ public class Parser
 	public static int arg2(String line)
 	{
 		String result = null;
-		if (commandType(line).equals("C_PUSH") || commandType(line).equals("C_POP")
-				|| commandType(line).equals("C_FUNCTION") || commandType(line).equals("C_CALL"))
+		String type = commandType(line).toString();
+		if (type.equals("PUSH") || type.equals("POP") || type.equals("FUNCTION") || type.equals("CALL"))
 		{
 			result = line.trim().split("\\s")[2];
 		}

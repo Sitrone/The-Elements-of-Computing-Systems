@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 
 public class CodeWriter
 {
@@ -36,23 +35,26 @@ public class CodeWriter
 	private static final String N = "\n"; // 换行符
 	private static final String INC_SP = "@SP" + N + "M=M+1" + N; // 指针的值指向下一个位置
 	private static final String DEC_SP = "@SP" + N + "M=M-1" + N; // 指针的值指向上一个位置
-//	private static final String GET_ARG = DEC_SP + "A=M" + N + "D=M";
-//	private static final String GET_ARG1_AND_ARG2 = DEC_SP + "A=M" + N + "D=M" + N + DEC_SP + "A=M" + N;
-//	private static final String GET_D_INSTOR_A = "@SP" + N + "A=M" + N + "M=D" + N;//将指针所指的地址的值设置为D
-	
-	
+	// private static final String GET_ARG = DEC_SP + "A=M" + N + "D=M";
+	// private static final String GET_ARG1_AND_ARG2 = DEC_SP + "A=M" + N +
+	// "D=M" + N + DEC_SP + "A=M" + N;
+	// private static final String GET_D_INSTOR_A = "@SP" + N + "A=M" + N +
+	// "M=D" + N;//将指针所指的地址的值设置为D
+
 	private static final String POP_FROM_STACK = DEC_SP + "A=M" + N + "D=M" + N;
 	private static final String PUSH_TO_STACK = "D=M" + N + "@SP" + N + "A=M" + N + "M=D" + N + INC_SP;
+
 	/**
 	 * 打开输出文件/输出流，准备进行写入
 	 * 
-	 * @param outputFile
+	 * @param file
 	 */
-	public CodeWriter(String outputFile)
+	public CodeWriter(String file)
 	{
 		try
 		{
-			bw = new BufferedWriter(new FileWriter(outputFile));
+			String outPutFile = setFileName(file);
+			bw = new BufferedWriter(new FileWriter(outPutFile));
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -66,7 +68,7 @@ public class CodeWriter
 	 * @param file
 	 * @throws IOException
 	 */
-	public void setFileName(String file) throws IOException
+	public String setFileName(String file)
 	{
 		String outFile = getFilePath(file) + getFileName(file) + ".asm";
 		File f = new File(outFile);
@@ -75,9 +77,17 @@ public class CodeWriter
 			f.delete();
 			System.out.println("asm file is deleted, waiting for create...");
 		}
-		f.createNewFile();
+		try
+		{
+			f.createNewFile();
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}
 		System.out.println("asm file is created successful.");
+
 		this.fileName = getFileName(file);
+		return outFile;
 	}
 
 	/**
@@ -93,13 +103,13 @@ public class CodeWriter
 			{
 			case ADD:
 				conbinationCmd.append(DEC_SP)
-				              .append("A=M").append(N)
-				              .append("D=M").append(N)
-				              .append(DEC_SP)
-				              .append("A=M").append(N)
-				              .append("D=D+M").append(N)
-//							  .append(GET_D_INSTOR_A)
-				              .append(INC_SP);
+							  .append("A=M").append(N)
+							  .append("D=M").append(N)
+							  .append(DEC_SP)
+							  .append("A=M").append(N)
+							  .append("D=D+M").append(N)
+							  // .append(GET_D_INSTOR_A)
+							  .append(INC_SP);
 				break;
 			case SUB:
 				conbinationCmd.append(DEC_SP)
@@ -108,7 +118,7 @@ public class CodeWriter
 							  .append(DEC_SP)
 							  .append("A=M").append(N)
 							  .append("D=M-D").append(N)
-//						   	  .append(GET_D_INSTOR_A)
+							  // .append(GET_D_INSTOR_A)
 							  .append(INC_SP);
 				break;
 			case NEG:
@@ -125,7 +135,7 @@ public class CodeWriter
 							  .append(DEC_SP)
 							  .append("A=M").append(N)
 							  .append("D=D&M").append(N)
-//							  .append(GET_D_INSTOR_A)
+							  // .append(GET_D_INSTOR_A)
 							  .append(INC_SP);
 				break;
 			case OR:
@@ -135,7 +145,7 @@ public class CodeWriter
 							  .append(DEC_SP)
 							  .append("A=M").append(N)
 							  .append("D=D|M").append(N)
-//							  .append(GET_D_INSTOR_A)
+							  // .append(GET_D_INSTOR_A)
 							  .append(INC_SP);
 				break;
 			case NOT:
@@ -146,48 +156,48 @@ public class CodeWriter
 				break;
 			case GT:
 				conbinationCmd.append(DEC_SP)
-							  .append("A=M").append(N)
-							  .append("D=M").append(N)
-							  .append(DEC_SP)
-							  .append("A=M").append(N)
-							  .append("D=M-D").append(N)   // D = x - y
-							  .append("@RET_EQ").append(String.valueOf(labelIdNumber)).append(N)
-							  .append("D;JGT").append(N)   // Jump if x is greater than y
-							  .append("@SP").append(N)    // If x is NOT greater than y
-							  .append("A=M").append(N)
-							  .append("M=0").append(N)
-							  .append(INC_SP)
-							  .append("@END").append(String.valueOf(labelIdNumber)).append(N)
-							  .append("0;JMP").append(N)
-							  .append("(RET_EQ").append(String.valueOf(labelIdNumber)).append(")").append(N)
-							  .append("@SP").append(N)  // If x is greater than y
-							  .append("A=M").append(N)
-							  .append("M=-1").append(N)
-							  .append(INC_SP)
-							  .append("(END").append(String.valueOf(labelIdNumber)).append(")").append(N);
+								.append("A=M").append(N)
+								.append("D=M").append(N)
+								.append(DEC_SP)
+								.append("A=M").append(N)
+								.append("D=M-D").append(N) // D = x - y
+								.append("@RET_EQ").append(String.valueOf(labelIdNumber)).append(N)
+								.append("D;JGT").append(N) // Jump if x is greater than y
+								.append("@SP").append(N) // If x is NOT greater than y
+								.append("A=M").append(N)
+								.append("M=0").append(N)
+								.append(INC_SP).append("@END")
+								.append(String.valueOf(labelIdNumber)).append(N)
+								.append("0;JMP").append(N)
+								.append("(RET_EQ").append(String.valueOf(labelIdNumber)).append(")").append(N)
+								.append("@SP").append(N) // If x is greater than y
+								.append("A=M").append(N)
+								.append("M=-1").append(N)
+								.append(INC_SP).append("(END")
+								.append(String.valueOf(labelIdNumber)).append(")").append(N);
 				labelIdNumber++;
 				break;
 			case LT:
 				conbinationCmd.append(DEC_SP)
-							  .append("A=M").append(N)
-							  .append("D=M").append(N)
-							  .append(DEC_SP)
-							  .append("A=M").append(N)
-							  .append("D=D-M").append(N)  // D = y - x
-							  .append("@RET_EQ").append(String.valueOf(labelIdNumber)).append(N)
-							  .append("D;JGT").append(N) // Jump if x is less than y
-							  .append("@SP").append(N)   // If x is NOT less than y
-							  .append("A=M").append(N)
-							  .append("M=0").append(N)  // FALSE
-							  .append(INC_SP)
-							  .append("@END" + String.valueOf(labelIdNumber) + N)
-							  .append("0;JMP").append(N)
-							  .append("(RET_EQ" + String.valueOf(labelIdNumber) + ")" +N)
-							  .append("@SP").append(N)  // If x is less than y
-							  .append("A=M").append(N)
-							  .append("M=-1").append(N)  // TRUE
-							  .append(INC_SP)
-							  .append("(END" + String.valueOf(labelIdNumber) + ")" +N);
+						      .append("A=M").append(N)
+						      .append("D=M").append(N)
+						      .append(DEC_SP)
+						      .append("A=M").append(N)
+						      .append("D=D-M").append(N) // D = y - x
+						      .append("@RET_EQ").append(String.valueOf(labelIdNumber)).append(N)
+						      .append("D;JGT").append(N) // Jump if x is less than y
+						      .append("@SP").append(N) // If x is NOT less than y
+						      .append("A=M").append(N)
+						      .append("M=0").append(N) // FALSE
+						      .append(INC_SP)
+						      .append("@END" + String.valueOf(labelIdNumber) + N)
+						      .append("0;JMP").append(N)
+						      .append("(RET_EQ" + String.valueOf(labelIdNumber) + ")" + N)
+						      .append("@SP").append(N) // If x is less than y
+						      .append("A=M").append(N)
+						      .append("M=-1").append(N) // TRUE
+						      .append(INC_SP)
+						      .append("(END" + String.valueOf(labelIdNumber) + ")" + N);
 				labelIdNumber++;
 				break;
 			case EQ:
@@ -196,21 +206,21 @@ public class CodeWriter
 							  .append("D=M").append(N)
 							  .append(DEC_SP)
 							  .append("A=M").append(N)
-							  .append("D=D-M").append(N)   // D = x - y
-							  .append("@RET_EQ").append(String.valueOf(labelIdNumber)).append(N)
-							  .append("D;JEQ").append(N) // Jump if x is equal y
-							  .append("@SP").append(N)   // if x is NOT equal y
+							  .append("D=D-M").append(N) // D = x - y
+							  .append("@RET_EQ")
+							  .append(String.valueOf(labelIdNumber)).append(N).append("D;JEQ").append(N) // Jump x is equal y
+							  .append("@SP").append(N) // if x is NOT equal y
 							  .append("A=M").append(N)
-							  .append("M=0").append(N)   // FALSE
+							  .append("M=0").append(N) // FALSE
 							  .append(INC_SP)
 							  .append("@END" + String.valueOf(labelIdNumber) + N)
 							  .append("0;JMP").append(N)
-							  .append("(RET_EQ" + String.valueOf(labelIdNumber) + ")" +N)
-							  .append("@SP").append(N) // if x is equal y
+							  .append("(RET_EQ" + String.valueOf(labelIdNumber) + ")" + N)
+							  .append("@SP").append(N) // if
 							  .append("A=M").append(N)
-							  .append("M=-1").append(N)  // TRUE
+							  .append("M=-1").append(N) // TRUE
 							  .append(INC_SP)
-							  .append("(END" + String.valueOf(labelIdNumber) + ")" +N);
+							  .append("(END" + String.valueOf(labelIdNumber) + ")" + N);
 				labelIdNumber++;
 				break;
 			default:
@@ -231,142 +241,141 @@ public class CodeWriter
 		StringBuilder conbinationCmd = new StringBuilder("");
 		StackOperation stackCmd = StackOperation.valueOf(command.toUpperCase());
 		Segments stackSegment = Segments.valueOf(segment.toUpperCase());
-		switch(stackCmd){
-		case PUSH:
-			switch(stackSegment){
-			case ARGUMENT:
-				conbinationCmd.append("@ARG").append(N)
-							  .append("A=M").append(N)
-							  .append("@" + String.valueOf(index) + N)
-							  .append("A=A+D").append(N)
-							  .append(PUSH_TO_STACK);
+		switch (stackCmd)
+			{
+			case PUSH:
+				switch (stackSegment)
+					{
+					case ARGUMENT:
+						conbinationCmd.append("@ARG").append(N)
+									  .append("A=M").append(N)
+									  .append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append(PUSH_TO_STACK);
+						break;
+
+					case LOCAL:
+						conbinationCmd.append("@LCL").append(N)
+									  .append("A=M").append(N)
+									  .append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append(PUSH_TO_STACK);
+						break;
+
+					case STATIC:
+						conbinationCmd.append("@").append(this.fileName + ".").append(String.valueOf(index)).append(N)
+									  .append(PUSH_TO_STACK);
+						break;
+
+					case CONSTANT:
+						conbinationCmd.append("@" + String.valueOf(index) + N)
+									  .append(PUSH_TO_STACK);
+						break;
+
+					case THIS:
+						conbinationCmd.append("@THIS").append(N)
+								  	  .append("A=M").append("@" + String.valueOf(index) + N)
+								  	  .append("A=A+D").append(N)
+								  	  .append(PUSH_TO_STACK);
+						break;
+
+					case THAT:
+						conbinationCmd.append("@THAT").append(N)
+									  .append("A=M").append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append(PUSH_TO_STACK);
+						break;
+
+					case POINTER:
+						if (String.valueOf(index).equals("0"))
+						{
+							conbinationCmd.append("@3").append(N);
+						} else if (String.valueOf(index).equals("1"))
+						{
+							conbinationCmd.append("@4").append(N);
+						}
+						conbinationCmd.append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append(PUSH_TO_STACK);
+						break;
+
+					case TEMP:
+						conbinationCmd.append("@5").append(N).append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append(PUSH_TO_STACK);
+						break;
+
+					default:
+						break;
+					}
 				break;
-				
-			case LOCAL:
-				conbinationCmd.append("@LCL").append(N)
-				  			  .append("A=M").append(N)
-				  			  .append("@" + String.valueOf(index) + N)
-				  			  .append("A=A+D").append(N)
-				  			  .append(PUSH_TO_STACK);
+			case POP:
+				switch (stackSegment)
+					{
+					case ARGUMENT:
+						conbinationCmd.append(POP_FROM_STACK)
+									  .append("@ARG").append(N)
+									  .append("A=M").append(N)
+									  .append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append("M=D").append(N);
+						break;
+					case LOCAL:
+						conbinationCmd.append(POP_FROM_STACK)
+									  .append("@LCL").append(N)
+									  .append("A=M").append(N)
+									  .append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append("M=D").append(N);
+						break;
+					case STATIC:
+						conbinationCmd.append(POP_FROM_STACK)
+									  .append("@" + this.fileName + "." + String.valueOf(index) + N)
+									  .append("M=D").append(N);
+						break;
+					case THIS:
+						conbinationCmd.append(POP_FROM_STACK)
+									  .append("@THIS").append(N)
+									  .append("A=M").append(N)
+									  .append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append("M=D").append(N);
+						break;
+					case THAT:
+						conbinationCmd.append(POP_FROM_STACK)
+									  .append("@THAT").append(N)
+									  .append("A=M").append(N)
+									  .append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append("M=D").append(N);
+						break;
+					case POINTER:
+						conbinationCmd.append(POP_FROM_STACK);
+						if (String.valueOf(index).equals("0"))
+						{
+							conbinationCmd.append("@3").append(N);
+						} else if (String.valueOf(index).equals("1"))
+						{
+							conbinationCmd.append("@4").append(N);
+						}
+						conbinationCmd.append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append("M=D").append(N);
+						break;
+					case TEMP:
+						conbinationCmd.append(POP_FROM_STACK).append("@5").append(N)
+									  .append("@" + String.valueOf(index) + N)
+									  .append("A=A+D").append(N)
+									  .append("M=D").append(N);
+						break;
+
+					default:
+						break;
+					}
 				break;
-				
-			case STATIC:
-				conbinationCmd.append("@").append(this.fileName + ".").append(String.valueOf(index)).append(N)
-				  			  .append(PUSH_TO_STACK);
-				break;
-				
-			case CONSTANT:
-				conbinationCmd.append("@" + String.valueOf(index) + N)
-							  .append(PUSH_TO_STACK);
-				break;
-				
-			case THIS:
-				conbinationCmd.append("@THIS").append(N)
-							  .append("A=M")
-				  			  .append("@" + String.valueOf(index) + N)
-				  			  .append("A=A+D").append(N)
-				  			  .append(PUSH_TO_STACK);
-				break;
-				
-			case THAT:
-				conbinationCmd.append("@THAT").append(N)
-				  			  .append("A=M")
-				  			  .append("@" + String.valueOf(index) + N)
-				  			  .append("A=A+D").append(N)
-				  			  .append(PUSH_TO_STACK);
-				break;
-				
-			case POINTER:
-				if(String.valueOf(index).equals("0"))
-				{
-					conbinationCmd.append("@3").append(N);
-				}else if(String.valueOf(index).equals("1"))
-				{
-					conbinationCmd.append("@4").append(N);
-				}
-				conbinationCmd.append("@" + String.valueOf(index) + N)
-							  .append("A=A+D").append(N)
-							  .append(PUSH_TO_STACK);
-				break;
-				
-			case TEMP:
-				conbinationCmd.append("@5").append(N)
-							  .append("@" + String.valueOf(index) + N)
-							  .append("A=A+D").append(N)
-							  .append(PUSH_TO_STACK);
-				break;
-				
 			default:
 				break;
 			}
-			break;
-		case POP:
-			switch(stackSegment){
-			case ARGUMENT:
-				conbinationCmd.append(POP_FROM_STACK)
-							  .append("@ARG").append(N)
-							  .append("A=M").append(N)
-							  .append("@" + String.valueOf(index) + N)
-							  .append("A=A+D").append(N)
-							  .append("M=D").append(N);
-				break;
-			case LOCAL:
-				conbinationCmd.append(POP_FROM_STACK)
-				  			  .append("@LCL").append(N)
-				  			  .append("A=M").append(N)
-				  			  .append("@" + String.valueOf(index) + N)
-				  			  .append("A=A+D").append(N)
-				  			  .append("M=D").append(N);
-				break;
-			case STATIC:
-				conbinationCmd.append(POP_FROM_STACK)
-	  			  		      .append("@" + this.fileName + "." + String.valueOf(index) + N)
-	  			  		      .append("M=D").append(N);
-				break;
-			case THIS:
-				conbinationCmd.append(POP_FROM_STACK)
-	  			  			  .append("@THIS").append(N)
-	  			  			  .append("A=M").append(N)
-	  			  			  .append("@" + String.valueOf(index) + N)
-	  			  			  .append("A=A+D").append(N)
-	  			  			  .append("M=D").append(N);
-				break;
-			case THAT:
-				conbinationCmd.append(POP_FROM_STACK)
-	  			  			  .append("@THAT").append(N)
-	  			  			  .append("A=M").append(N)
-	  			  			  .append("@" + String.valueOf(index) + N)
-	  			  			  .append("A=A+D").append(N)
-	  			  			  .append("M=D").append(N);
-				break;
-			case POINTER:
-				conbinationCmd.append(POP_FROM_STACK);
-				if(String.valueOf(index).equals("0"))
-				{
-					conbinationCmd.append("@3").append(N);
-				}else if(String.valueOf(index).equals("1"))
-				{
-					conbinationCmd.append("@4").append(N);
-				}
-				conbinationCmd.append("@" + String.valueOf(index) + N)
-							  .append("A=A+D").append(N)
-							  .append("M=D").append(N);
-				break;
-			case TEMP:
-				conbinationCmd.append(POP_FROM_STACK)
-	  			  			  .append("@5").append(N)
-	  			  			  .append("@" + String.valueOf(index) + N)
-	  			  			  .append("A=A+D").append(N)
-	  			  			  .append("M=D").append(N);
-				break;
-				
-			default:
-				break;
-			}
-			break;
-		default:
-			break;
-		}
 		writeConbinationCmd(conbinationCmd.toString());
 	}
 
@@ -375,6 +384,7 @@ public class CodeWriter
 		try
 		{
 			bw.write(conbinationCmd);
+			bw.flush();
 		} catch (IOException e)
 		{
 			System.out.println("write command failed : " + conbinationCmd);
@@ -387,13 +397,13 @@ public class CodeWriter
 	 * 
 	 * @param w
 	 */
-	public void close(Writer w)
+	public void close()
 	{
 		try
 		{
-			if (w != null)
+			if (bw != null)
 			{
-				w.close();
+				bw.close();
 			}
 		} catch (IOException e)
 		{
@@ -409,7 +419,7 @@ public class CodeWriter
 
 	private String getFileName(String path)
 	{
-		int indexOfLastSlash = path.indexOf("\\");
+		int indexOfLastSlash = path.lastIndexOf("\\");
 		int indexOfLastDot = path.lastIndexOf(".");
 		return new String(path.substring(indexOfLastSlash + 1, indexOfLastDot));
 	}

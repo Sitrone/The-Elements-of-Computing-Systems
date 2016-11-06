@@ -34,11 +34,11 @@ public class Vmtranslator
 				}
 				
 				type = Parser.commandType(line).toString();
-				if ("C_ARITHMETIC".equals(type))
+				if ("ARITHMETIC".equals(type))
 				{
 					String attribute1 = Parser.arg1(line);
 					codeWriter.writeArithmetic(attribute1);
-				} else if (type.equals("C_PUSH") || type.equals("C_POP"))
+				} else if (type.equals("PUSH") || type.equals("POP"))
 				{
 					String attribute1 = Parser.arg1(line);
 					int attribute2 = Parser.arg2(line);
@@ -56,6 +56,7 @@ public class Vmtranslator
 				{
 					br.close();
 				}
+				codeWriter.close();
 			} catch (IOException e)
 			{
 				e.printStackTrace();

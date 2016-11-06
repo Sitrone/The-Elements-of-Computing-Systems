@@ -1,17 +1,14 @@
 package com.elements.vm;
 
 import java.io.File;
-import java.util.regex.Pattern;
 
 public class Test
 {
-	Vmtranslator vm = new Vmtranslator();
+	static Vmtranslator vm = new Vmtranslator();
+	static String root = "C:\\Program Files\\GreenSoftware\\nand2tetris\\nand2tetris\\projects\\07";
+	
 	public static void main(String[] args){
-		Vmtranslator vm = new Vmtranslator();
-		String file = "C:\\Program Files\\GreenSoftware\\nand2tetris\\nand2tetris\\projects\\07";
-		
-		
-		
+		test(root);
 	}
 	
 	private static void test(String str){
@@ -28,9 +25,9 @@ public class Test
 			}else if(f.isFile()){
 				System.out.println("inFile: " + f.getAbsolutePath());
 				System.out.println("outFile: " + getFileName(f.getName()));
-				Pattern p = Pattern.compile(".asm");
-				if (p.matcher(f.getAbsolutePath()) != null){
-//					vm.process(f.getAbsolutePath(), getFileName(f.getName()));
+				if (f.getAbsolutePath().endsWith(".vm")){
+					vm.process(f.getAbsolutePath());
+					System.out.println("matches : " + f.getAbsolutePath());
 				}
 				
 			}
@@ -38,8 +35,7 @@ public class Test
 	}
 	
 	private static String getFileName(String in){
-		String root = "C:\\Program Files\\GreenSoftware\\nand2tetris\\nand2tetris\\projects\\06\\";
 		int indext = in.lastIndexOf(".");
-		return new String (root + in.substring(0, indext) + ".hack");
+		return new String (root + in.substring(0, indext) + ".asm");
 	}
 }
