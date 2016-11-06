@@ -269,7 +269,11 @@ public class CodeWriter
 
 					case CONSTANT:
 						conbinationCmd.append("@" + String.valueOf(index) + N)
-									  .append(PUSH_TO_STACK);
+									  .append("D=A").append(N)
+									  .append("@SP").append(N)
+									  .append("M=D").append(N)
+									  .append("@SP").append(N)
+									  .append("M=M+1").append(N);
 						break;
 
 					case THIS:
