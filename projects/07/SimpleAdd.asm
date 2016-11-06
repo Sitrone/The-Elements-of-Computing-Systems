@@ -1,4 +1,5 @@
 // 配合测试脚本去理解
+// A=M，M=D两句并列意味着将D中数据存入Memory[A]
 // SimpleAdd.tst测试脚本里面第一句话：
 // set RAM[0] 256,
 
