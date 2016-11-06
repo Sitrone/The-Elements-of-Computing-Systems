@@ -161,7 +161,7 @@ public class CodeWriter
 								.append(DEC_SP)
 								.append("A=M").append(N)
 								.append("D=M-D").append(N) // D = x - y
-								.append("@RET_EQ").append(String.valueOf(labelIdNumber)).append(N)
+								.append("@RET_GT").append(String.valueOf(labelIdNumber)).append(N)
 								.append("D;JGT").append(N) // Jump if x is greater than y
 								.append("@SP").append(N) // If x is NOT greater than y
 								.append("A=M").append(N)
@@ -169,7 +169,7 @@ public class CodeWriter
 								.append(INC_SP).append("@END")
 								.append(String.valueOf(labelIdNumber)).append(N)
 								.append("0;JMP").append(N)
-								.append("(RET_EQ").append(String.valueOf(labelIdNumber)).append(")").append(N)
+								.append("(RET_GT").append(String.valueOf(labelIdNumber)).append(")").append(N)
 								.append("@SP").append(N) // If x is greater than y
 								.append("A=M").append(N)
 								.append("M=-1").append(N)
@@ -184,7 +184,7 @@ public class CodeWriter
 						      .append(DEC_SP)
 						      .append("A=M").append(N)
 						      .append("D=D-M").append(N) // D = y - x
-						      .append("@RET_EQ").append(String.valueOf(labelIdNumber)).append(N)
+						      .append("@RET_LT").append(String.valueOf(labelIdNumber)).append(N)
 						      .append("D;JGT").append(N) // Jump if x is less than y
 						      .append("@SP").append(N) // If x is NOT less than y
 						      .append("A=M").append(N)
@@ -192,7 +192,7 @@ public class CodeWriter
 						      .append(INC_SP)
 						      .append("@END" + String.valueOf(labelIdNumber) + N)
 						      .append("0;JMP").append(N)
-						      .append("(RET_EQ" + String.valueOf(labelIdNumber) + ")" + N)
+						      .append("(RET_LT" + String.valueOf(labelIdNumber) + ")" + N)
 						      .append("@SP").append(N) // If x is less than y
 						      .append("A=M").append(N)
 						      .append("M=-1").append(N) // TRUE
@@ -207,8 +207,8 @@ public class CodeWriter
 							  .append(DEC_SP)
 							  .append("A=M").append(N)
 							  .append("D=D-M").append(N) // D = x - y
-							  .append("@RET_EQ")
-							  .append(String.valueOf(labelIdNumber)).append(N).append("D;JEQ").append(N) // Jump x is equal y
+							  .append("@RET_EQ").append(String.valueOf(labelIdNumber)).append(N)
+							  .append("D;JEQ").append(N) // Jump x is equal y
 							  .append("@SP").append(N) // if x is NOT equal y
 							  .append("A=M").append(N)
 							  .append("M=0").append(N) // FALSE
@@ -271,6 +271,7 @@ public class CodeWriter
 						conbinationCmd.append("@" + String.valueOf(index) + N)
 									  .append("D=A").append(N)
 									  .append("@SP").append(N)
+									  .append("A=M").append(N)
 									  .append("M=D").append(N)
 									  .append("@SP").append(N)
 									  .append("M=M+1").append(N);
