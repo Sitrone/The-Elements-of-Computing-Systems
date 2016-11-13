@@ -5,7 +5,7 @@ import java.io.File;
 public class Test
 {
 	static Vmtranslator vm = new Vmtranslator();
-	static String root = "C:\\Program Files\\GreenSoftware\\nand2tetris\\nand2tetris\\projects\\07\\MemoryAccess\\BasicTest";
+	static String root = "C:\\Program Files\\GreenSoftware\\nand2tetris\\nand2tetris\\projects\\07";
 	
 	public static void main(String[] args){
 		test(root);

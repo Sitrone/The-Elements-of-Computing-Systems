@@ -108,7 +108,7 @@ public class CodeWriter
 							  .append("D=M").append(N)
 							  .append("@SP").append(N)
 							  .append("A=M-1").append(N)
-							  .append("D=D+M").append(N);
+							  .append("M=D+M").append(N);
 							  // .append(GET_D_INSTOR_A)
 //							  .append(INC_SP);
 				break;
@@ -119,7 +119,7 @@ public class CodeWriter
 				  			   .append("D=M").append(N)
 				  			   .append("@SP").append(N)
 				  			   .append("A=M-1").append(N)
-							   .append("D=M-D").append(N);
+							   .append("M=M-D").append(N);
 							  // .append(GET_D_INSTOR_A)
 //							  .append(INC_SP);
 				break;
@@ -138,7 +138,7 @@ public class CodeWriter
 							  .append("D=M").append(N)
 							  .append("@SP").append(N)
 							  .append("A=M-1").append(N)
-							  .append("D=D&M").append(N);
+							  .append("M=D&M").append(N);
 							  // .append(GET_D_INSTOR_A)
 //							  .append(INC_SP);
 				break;
@@ -149,7 +149,7 @@ public class CodeWriter
 							  .append("D=M").append(N)
 							  .append("@SP").append(N)
 							  .append("A=M-1").append(N)
-							  .append("D=D|M").append(N);
+							  .append("M=D|M").append(N);
 							  // .append(GET_D_INSTOR_A)
 //							  .append(INC_SP);
 				break;
