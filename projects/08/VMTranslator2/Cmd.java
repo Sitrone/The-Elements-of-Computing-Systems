@@ -185,8 +185,8 @@ public class Cmd
 	{
 		StringBuilder build = new StringBuilder("");
 		build.append(" Static " + index +N);
-		build.append("@").append(fileName + ".").append(index).append(N)
-					  .append(PUSH_TO_STACK);
+		build.append("@" + (fileName + "." + index)).append(N)
+			 .append(PUSH_TO_STACK);
 		return build.toString();
 	}
 	
@@ -221,10 +221,10 @@ public class Cmd
 		StringBuilder build = new StringBuilder("");
 		build.append(" That " + index +N);
 		build.append("@" + index).append(N)
-			  			  .append("D=A").append(N)
-			  			  .append("@THAT").append(N)
-					  .append("A=D+M").append(N)
-					  .append(PUSH_TO_STACK);
+			 .append("D=A").append(N)
+			 .append("@THAT").append(N)
+			 .append("A=D+M").append(N)
+			 .append(PUSH_TO_STACK);
 		return build.toString();
 	}
 	
@@ -233,7 +233,7 @@ public class Cmd
 		StringBuilder build = new StringBuilder("");
 		build.append(" Pointer " + (index + 3) +N);
 		build.append("@" + (index + 3)).append(N)
-					  .append(PUSH_TO_STACK);
+			 .append(PUSH_TO_STACK);
 		return build.toString();
 	}
 	
@@ -242,7 +242,7 @@ public class Cmd
 		StringBuilder build = new StringBuilder("");
 		build.append(" Temp " + index +N);
 		build.append("@" + (index + 5)).append(N)
-					  .append(PUSH_TO_STACK);
+			 .append(PUSH_TO_STACK);
 		return build.toString();
 	}
 	
@@ -254,14 +254,14 @@ public class Cmd
 					  .append("D=A").append(N)
 					  .append("@ARG").append(N)
 					  .append("D=D+M").append(N)
-					  .append("@R10").append(N)
+					  .append("@R13").append(N)  // FIXME R10 or R13?
 					  .append("M=D").append(N)
 					  .append("@SP").append(N)
 					  .append("A=M-1").append(N)
 					  .append("D=M").append(N)
 					  .append("@SP").append(N)
 					  .append("M=M-1").append(N)
-					  .append("@R10").append(N)
+					  .append("@R13").append(N)
 					  .append("A=M").append(N)
 					  .append("M=D").append(N);
 		return build.toString();
@@ -276,14 +276,14 @@ public class Cmd
 					  .append("D=A").append(N)
 					  .append("@LCL").append(N)
 					  .append("D=D+M").append(N)
-					  .append("@R10").append(N)
+					  .append("@R13").append(N)
 					  .append("M=D").append(N)
 					  .append("@SP").append(N)
 					  .append("A=M-1").append(N)
 					  .append("D=M").append(N)
 					  .append("@SP").append(N)
 					  .append("M=M-1").append(N)
-					  .append("@R10").append(N)
+					  .append("@R13").append(N)
 					  .append("A=M").append(N)
 					  .append("M=D").append(N);
 		return build.toString();
@@ -309,12 +309,12 @@ public class Cmd
 		  			  .append("D=A").append(N)
 					  .append("@THIS").append(N)
 					  .append("D=D+M").append(N)
-					  .append("@R10").append(N)
+					  .append("@R13").append(N)
 					  .append("M=D").append(N)
 					  .append(POP_FROM_STACK)
 					  .append("@SP").append(N)
 					  .append("M=M-1").append(N)
-					  .append("@R10").append(N)
+					  .append("@R13").append(N)
 					  .append("A=M").append(N)
 					  .append("M=D").append(N);
 		return build.toString();
@@ -328,12 +328,12 @@ public class Cmd
 					  .append("D=A").append(N)
 					  .append("@THAT").append(N)
 					  .append("D=D+M").append(N)
-					  .append("@R10").append(N)
+					  .append("@R13").append(N)
 					  .append("M=D").append(N)
 					  .append(POP_FROM_STACK)
 					  .append("@SP").append(N)
 					  .append("M=M-1").append(N)
-					  .append("@R10").append(N)
+					  .append("@R13").append(N)
 					  .append("A=M").append(N)
 					  .append("M=D").append(N);
 		return build.toString();
@@ -362,4 +362,101 @@ public class Cmd
 					  .append("M=D").append(N);
 		return build.toString();
 	}
+	
+	public static String vmInit()
+	{
+	    StringBuilder build = new StringBuilder(32);
+	    build.append("@256").append(N)
+	         .append("D=A").append(N)
+	         .append("@SP").append(N)
+	         .append("M=D").append(N)
+	         .append("// call Sys.init").append(N);
+	    
+	    // init return
+	    build.append("@return-Sys.init").append(N)
+	          .append("D=A").append(N)
+	          .append("@SP").append(N)
+	          .append("A=M").append(N)
+	          .append("M=D").append(N)
+	          .append("@SP").append(N)
+	          .append("M=M+1").append(N);
+	    
+	    // init LCL
+	    build.append(pushInitCmd("LCL"));
+	    
+	    // init ARG
+	    build.append(pushInitCmd("ARG"));
+	    
+	    // init THIS
+        build.append(pushInitCmd("THIS"));
+        
+        // init THAT
+        build.append(pushInitCmd("THAT"));
+        
+        
+        build.append("@SP").append(N)
+             .append("D=M").append(N)
+             .append("@0").append(N)
+             .append("D=D-A").append(N)
+             .append("@5").append(N)
+             .append("D=D-A").append(N)
+             .append("@ARG").append(N)
+             .append("M=D").append(N)
+        
+             .append("@SP").append(N)
+             .append("D=M").append(N)
+             .append("@LCL").append(N)
+             .append("M=D").append(N);
+        
+        //TransferControl
+        build.append("@Sys.init").append(N)
+             .append("0; JMP").append(N)
+        
+             .append("(return-Sys.init)").append(N);
+	    return build.toString();
+	}
+	
+	private static String pushInitCmd(String cmd)
+	{
+	    StringBuilder build = new StringBuilder();
+	    build.append(cmd).append(N)
+             .append("D=M").append(N)
+             .append("@SP").append(N)
+             .append("A=M").append(N)
+             .append("M=D").append(N)
+             .append("@SP").append(N)
+             .append("M=M+1").append(N);
+	    return build.toString();
+	}
+	
+	public static String writeLabelCmd(String label, String functionName)
+	{
+	    StringBuilder build = new StringBuilder();
+	    build.append("// label").append(N)
+	         .append("(" + functionName + "$" + label + ")").append(N);
+	   return build.toString(); 
+	}
+	
+	public static String writeIfCmd(String label, String functionName)
+	{
+	    StringBuilder build = new StringBuilder();
+	    build.append("// if-goto " + label).append(N)
+	         .append("@SP").append(N)
+	         .append("A=M-1").append(N)
+	         .append("D=M").append(N)
+	         .append("@SP").append(N)
+	         .append("M=M-1").append(N)
+	         .append("@" + functionName + "$" + label).append(N)
+	         .append("D;JNE").append(N);
+	    return build.toString();
+	}
+	
+    public static String writeGotoCmd(String label, String functionName)
+    {
+        StringBuilder build = new StringBuilder();
+        build.append("// goto " + label).append(N)
+             .append("@" + functionName + "$" + label).append(N)
+             .append("0;JMP").append(N);
+        return build.toString();
+    }
 }

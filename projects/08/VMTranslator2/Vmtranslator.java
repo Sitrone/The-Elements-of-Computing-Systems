@@ -14,6 +14,7 @@ public class Vmtranslator
 	public void process(String file)
 	{
 		codeWriter = new CodeWriter(file);
+//		codeWriter.writeInit();
 		try
 		{
 			br = new BufferedReader(new FileReader(file));
@@ -21,6 +22,7 @@ public class Vmtranslator
 		{
 			e.printStackTrace();
 		}
+		
 		String line = null;
 		CommandType type = null;
 		try
@@ -35,38 +37,44 @@ public class Vmtranslator
 					continue;
 				}
 				
-				type = Parser.commandType(line);
+				type = Parser.commandType(line.trim());
 				switch(type){
 				case C_ARITHMETIC:
 					attribute1 = Parser.arg1(line);
 					codeWriter.writeArithmetic(attribute1);
 					break;
+					
 				case C_PUSH:
 				case C_POP:
 					attribute1 = Parser.arg1(line);
 					attribute2 = Parser.arg2(line);
 					codeWriter.writePushPop(type.toString(), attribute1, attribute2);
 					break;
+					
 				case C_LABEL:
 					attribute1 = Parser.arg1(line);
 					codeWriter.writeLabel(attribute1);
 					break;
+					
 				case C_GOTO:
 					attribute1 = Parser.arg1(line);
 					codeWriter.writeGoto(attribute1);
 					break;
 				case C_IF:
 					attribute1 = Parser.arg1(line);
-					codeWriter.writeGoto(attribute1);
+					codeWriter.writeIf(attribute1);
 					break;
+					
 				case C_FUNCTION:
 					attribute1 = Parser.arg1(line);
 					attribute2 = Parser.arg2(line);
 					codeWriter.writeFunction(attribute1, attribute2);
 					break;
+					
 				case C_RETURN:
 					codeWriter.writeReturn();
 					break;
+					
 				case C_CALL:
 					attribute1 = Parser.arg1(line);
 					attribute2 = Parser.arg2(line);

@@ -11,6 +11,7 @@ public class CodeWriter
 {
 	private BufferedWriter bw = null;
 	private String fileName = "";
+	private String functionName = "";
 
 	public String getFileName()
 	{
@@ -45,6 +46,7 @@ public class CodeWriter
 		{
 			String outPutFile = setFileName(file);
 			bw = new BufferedWriter(new FileWriter(outPutFile));
+			this.functionName = "Main";
 		} catch (IOException e)
 		{
 			e.printStackTrace();
@@ -85,7 +87,7 @@ public class CodeWriter
 	 */
 	public void writeInit()
 	{
-		
+		writeConbinationCmd(vmInit());
 	}
 
 	/**
@@ -220,7 +222,6 @@ public class CodeWriter
 					}
 				break;
 			default:
-				break;
 			}
 		writeConbinationCmd(conbinationCmd.toString());
 	}
@@ -231,7 +232,7 @@ public class CodeWriter
 	 */
 	public void writeLabel(String label)
 	{
-		
+		writeConbinationCmd(writeLabelCmd(label, functionName));
 	}
 	
 	/**
@@ -240,7 +241,7 @@ public class CodeWriter
 	 */
 	public void writeGoto(String label)
 	{
-		
+	    writeConbinationCmd(writeGotoCmd(label, functionName));
 	}
 	
 	/**
@@ -249,7 +250,7 @@ public class CodeWriter
 	 */
 	public void writeIf(String label)
 	{
-		
+	    writeConbinationCmd(writeIfCmd(label, functionName));
 	}
 	
 	/**
@@ -313,6 +314,24 @@ public class CodeWriter
 		{
 			e.printStackTrace();
 		}
+	}
+	
+	private boolean checkName(String name)
+	{
+	    if(Character.isDigit(name.charAt(0)))
+	    {
+	        return false;
+	    }
+	    for(Character c : name.toCharArray())
+	    {
+	        if (!isIdentifer(c)) return false;
+	    }
+	    return true;
+	}
+	
+	private boolean isIdentifer(Character c)
+	{
+	    return Character.isLetterOrDigit(c) || c.equals('_') || c.equals('.') || c.equals(':');
 	}
 
 	/**
