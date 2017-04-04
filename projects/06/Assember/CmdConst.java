@@ -8,12 +8,12 @@ public interface CmdConst {
 	String A_COMMAND = "A_COMMAND";
 	
 	/**
-	 * dest=comp;jum;
+	 * dest=comp;jump;
 	 */
 	String C_COMMAND = "C_COMMAND";
 	
 	/**
-	 * (Xxx),ÆäÖĞXxxÊÇ·ûºÅ
+	 * (Xxx),ä¼ªæŒ‡ä»¤ï¼Œå½“(Xxx)ä¸­çš„Xxxä¸ºç¬¦å·æ—¶
 	 */
 	String L_COMMAND = "L_COMMAND";
 }
