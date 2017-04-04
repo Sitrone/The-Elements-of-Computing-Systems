@@ -34,7 +34,7 @@ public class CodeWriter
 
 	private static final String N = "\n"; // 换行符
 	private static final String INC_SP = "@SP" + N + "M=M+1" + N; // 指针的值指向下一个位置
-	private static final String DEC_SP = "@SP" + N + "M=M-1" + N; // 指针的值指向上一个位置
+//	private static final String DEC_SP = "@SP" + N + "M=M-1" + N; // 指针的值指向上一个位置
 	// private static final String GET_ARG = DEC_SP + "A=M" + N + "D=M";
 	// private static final String GET_ARG1_AND_ARG2 = DEC_SP + "A=M" + N +
 	// "D=M" + N + DEC_SP + "A=M" + N;
@@ -445,16 +445,7 @@ public class CodeWriter
 	 */
 	public void close()
 	{
-		try
-		{
-			if (bw != null)
-			{
-				bw.close();
-			}
-		} catch (IOException e)
-		{
-			e.printStackTrace();
-		}
+		IOUtils.closeQuietly(bw);
 	}
 
 	private String getFilePath(String path)
@@ -469,4 +460,5 @@ public class CodeWriter
 		int indexOfLastDot = path.lastIndexOf(".");
 		return new String(path.substring(indexOfLastSlash + 1, indexOfLastDot));
 	}
+	
 }

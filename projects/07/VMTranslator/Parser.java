@@ -12,17 +12,20 @@ public class Parser
 	public static CommandType commandType(String line)
 	{
 		if (line.contains("add") || line.contains("sub") || line.contains("neg") || line.contains("eq")
-				|| line.contains("gt") || line.contains("lt") || line.contains("and") || line.contains("or")
-				|| line.contains("not"))
+		        || line.contains("gt") || line.contains("lt") || line.contains("and") || line.contains("or")
+		        || line.contains("not"))
 		{
 			return CommandType.C_ARITHMETIC;
-		} else if (line.contains("push"))
+		}
+		else if (line.contains("push"))
 		{
 			return CommandType.C_PUSH;
-		} else if (line.contains("pop"))
+		}
+		else if (line.contains("pop"))
 		{
 			return CommandType.C_POP;
-		} else
+		}
+		else
 		{
 			return CommandType.C_IGNORE;
 		}
@@ -33,31 +36,40 @@ public class Parser
 		if (line.contains("add"))
 		{
 			return "add";
-		} else if (line.contains("sub"))
+		}
+		else if (line.contains("sub"))
 		{
 			return "sub";
-		} else if (line.contains("neg"))
+		}
+		else if (line.contains("neg"))
 		{
 			return "neg";
-		} else if (line.contains("eq"))
+		}
+		else if (line.contains("eq"))
 		{
 			return "eq";
-		} else if (line.contains("gt"))
+		}
+		else if (line.contains("gt"))
 		{
 			return "gt";
-		} else if (line.contains("lt"))
+		}
+		else if (line.contains("lt"))
 		{
 			return "lt";
-		} else if (line.contains("and"))
+		}
+		else if (line.contains("and"))
 		{
 			return "and";
-		} else if (line.contains("or"))
+		}
+		else if (line.contains("or"))
 		{
 			return "or";
-		} else if (line.contains("not"))
+		}
+		else if (line.contains("not"))
 		{
 			return "not";
-		} else
+		}
+		else
 		{
 			return line.trim().split("\\s")[1];
 		}
