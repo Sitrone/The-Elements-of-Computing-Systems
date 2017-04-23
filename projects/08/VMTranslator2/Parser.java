@@ -8,7 +8,7 @@ public class Parser
         throw new AssertionError();
     }
 
-    // 第二阶段实现算术指令和push pop指令和剩下的7个指令
+    // TODO call function return指令
     public static CommandType commandType(String line)
     {
         if (line.contains("add") || line.contains("sub") || line.contains("neg") || line.contains("eq")

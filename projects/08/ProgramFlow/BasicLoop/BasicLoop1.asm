@@ -1,0 +1,135 @@
+//Push Constant 0
+@0
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//Pop Local 0
+@0
+D=A
+@LCL
+D=D+M
+@R13
+M=D
+@SP
+A=M-1
+D=M
+@SP
+M=M-1
+@R13
+A=M
+M=D
+// label
+(Main$LOOP_START)
+//Push Argument 0
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//Push Local 0
+@0
+D=A
+@LCL
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//add
+@SP
+AM=M-1
+D=M
+@SP
+A=M-1
+M=D+M
+//Pop Local 0
+@0
+D=A
+@LCL
+D=D+M
+@R13
+M=D
+@SP
+A=M-1
+D=M
+@SP
+M=M-1
+@R13
+A=M
+M=D
+//Push Argument 0
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//Push Constant 1
+@1
+D=A
+@SP
+A=M
+M=D
+@SP
+M=M+1
+//sub
+@SP
+AM=M-1
+D=M
+@SP
+A=M-1
+M=M-D
+//Pop Argument 0
+@0
+D=A
+@ARG
+D=D+M
+@R13
+M=D
+@SP
+A=M-1
+D=M
+@SP
+M=M-1
+@R13
+A=M
+M=D
+//Push Argument 0
+@0
+D=A
+@ARG
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
+// goto
+@Main$LOOP_START
+0;JMP
+//Push Local 0
+@0
+D=A
+@LCL
+A=D+M
+D=M
+@SP
+A=M
+M=D
+@SP
+M=M+1
