@@ -16,7 +16,7 @@ public class Vmtranslator
 	public void process(String file)
 	{
 		CodeWriter codeWriter = new CodeWriter(file);
-		// codeWriter.writeInit();
+//		codeWriter.writeInit();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file)))
 		{
@@ -81,30 +81,31 @@ public class Vmtranslator
 				}
 
 				/*
-				  if ("ARITHMETIC".equals(type)) { attribute1 =
-				  Parser.arg1(line); codeWriter.writeArithmetic(attribute1); }
-				  else if (type.equals("PUSH") || type.equals("POP")) {
-				  attribute1 = Parser.arg1(line); attribute2 =
-				  Parser.arg2(line); codeWriter.writePushPop(type.toString(),
-				 attribute1, attribute2); }else if (type.equals("LABEL")) {
-				 attribute1 = Parser.arg1(line);
-				  codeWriter.writeLabel(attribute1); }else if
-				  (type.equals("GOTO")) { attribute1 = Parser.arg1(line);
-				  codeWriter.writeGoto(attribute1); }else if
-				  (type.equals("IF")) { attribute1 = Parser.arg1(line);
-				  codeWriter.writeGoto(attribute1); }else if
-				  (type.equals("FUNCTION")) { attribute1 = Parser.arg1(line);
-				  attribute2 = Parser.arg2(line);
-				  codeWriter.writeFunction(attribute1, attribute2); }else if
-				  (type.equals("RETURN")) { codeWriter.writeReturn(); }else if
-				 (type.equals("CALL")) { attribute1 = Parser.arg1(line);
-				  attribute2 = Parser.arg2(line);
-				  codeWriter.writeCall(attribute1, attribute2); }
+				 * if ("ARITHMETIC".equals(type)) { attribute1 =
+				 * Parser.arg1(line); codeWriter.writeArithmetic(attribute1); }
+				 * else if (type.equals("PUSH") || type.equals("POP")) {
+				 * attribute1 = Parser.arg1(line); attribute2 =
+				 * Parser.arg2(line); codeWriter.writePushPop(type.toString(),
+				 * attribute1, attribute2); }else if (type.equals("LABEL")) {
+				 * attribute1 = Parser.arg1(line);
+				 * codeWriter.writeLabel(attribute1); }else if
+				 * (type.equals("GOTO")) { attribute1 = Parser.arg1(line);
+				 * codeWriter.writeGoto(attribute1); }else if
+				 * (type.equals("IF")) { attribute1 = Parser.arg1(line);
+				 * codeWriter.writeGoto(attribute1); }else if
+				 * (type.equals("FUNCTION")) { attribute1 = Parser.arg1(line);
+				 * attribute2 = Parser.arg2(line);
+				 * codeWriter.writeFunction(attribute1, attribute2); }else if
+				 * (type.equals("RETURN")) { codeWriter.writeReturn(); }else if
+				 * (type.equals("CALL")) { attribute1 = Parser.arg1(line);
+				 * attribute2 = Parser.arg2(line);
+				 * codeWriter.writeCall(attribute1, attribute2); }
 				 */
 			}
 		}
 		catch (IOException e)
 		{
+			System.out.println("Failed to read file " + e.getMessage());
 			e.printStackTrace();
 		}
 		finally

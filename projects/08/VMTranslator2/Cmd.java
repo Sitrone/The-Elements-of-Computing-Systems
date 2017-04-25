@@ -354,7 +354,7 @@ public class Cmd
 	public static String popTemp(int index)
 	{
 		StringBuilder build = new StringBuilder(32);
-		build.append(" Temp " + index +N);
+		build.append(" Temp " + index + N);
 		build.append(POP_FROM_STACK)
 					  .append("@SP").append(N)
 					  .append("M=M-1").append(N)
@@ -368,7 +368,7 @@ public class Cmd
 	    StringBuilder build = new StringBuilder(128);
 	    
 	    // SP=256, 将堆栈指针初始化为0x0100
-	    build.append("// bootstrap begin")
+	    build.append("// bootstrap begin").append(N)
 	    	 .append("@256").append(N)
 	         .append("D=A").append(N)
 	         .append("@SP").append(N)

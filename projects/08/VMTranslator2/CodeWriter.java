@@ -89,7 +89,7 @@ public class CodeWriter
 	 */
 	public void writeInit()
 	{
-		writeConbinationCmd(vmInit());
+		writeCmd2File(vmInit());
 	}
 
 	/**
@@ -136,7 +136,7 @@ public class CodeWriter
 		default:
 			break;
 		}
-		writeConbinationCmd(conbinationCmd.toString());
+		writeCmd2File(conbinationCmd.toString());
 	}
 
 	/**
@@ -225,7 +225,7 @@ public class CodeWriter
 			break;
 		default:
 		}
-		writeConbinationCmd(conbinationCmd.toString());
+		writeCmd2File(conbinationCmd.toString());
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class CodeWriter
 	 */
 	public void writeLabel(String label)
 	{
-		writeConbinationCmd(writeLabelCmd(label, functionName));
+		writeCmd2File(writeLabelCmd(label, functionName));
 	}
 
 	/**
@@ -245,7 +245,7 @@ public class CodeWriter
 	 */
 	public void writeGoto(String label)
 	{
-		writeConbinationCmd(writeGotoCmd(label, functionName));
+		writeCmd2File(writeGotoCmd(label, functionName));
 	}
 
 	/**
@@ -255,7 +255,7 @@ public class CodeWriter
 	 */
 	public void writeIf(String label)
 	{
-		writeConbinationCmd(writeIfCmd(label, functionName));
+		writeCmd2File(writeIfCmd(label, functionName));
 	}
 
 	/**
@@ -266,7 +266,8 @@ public class CodeWriter
 	 */
 	public void writeCall(String functionName, int numArgs)
 	{
-
+		writeCmd2File(writeCallCmd(functionName, numArgs, labelIdNumber));
+		labelIdNumber++;
 	}
 
 	/**
@@ -274,7 +275,8 @@ public class CodeWriter
 	 */
 	public void writeReturn()
 	{
-
+		writeCmd2File(writeReturnCmd(labelIdNumber));
+		labelIdNumber++;
 	}
 
 	/**
@@ -285,7 +287,7 @@ public class CodeWriter
 	 */
 	public void writeFunction(String functionName, int numLocals)
 	{
-
+		writeCmd2File(writeFunctionCmd(functionName, numLocals));
 	}
 
 	/**
@@ -293,7 +295,7 @@ public class CodeWriter
 	 * 
 	 * @param conbinationCmd
 	 */
-	private void writeConbinationCmd(String conbinationCmd)
+	private void writeCmd2File(String conbinationCmd)
 	{
 		try
 		{
