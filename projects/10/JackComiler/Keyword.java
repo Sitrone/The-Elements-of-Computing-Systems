@@ -1,0 +1,8 @@
+package com.elements.compiler;
+
+public enum Keyword
+{
+	CLASS, METHOD, INT, FUNCTION, BOOLEAN, CONSTRUCTOR, 
+	CHAR, VOID, VAR, STATIC, FIFELD, LET, DO, IF, ELSE, 
+	WHILE, RETURN, TRUE, FALSE, NULL, THIS;
+}
