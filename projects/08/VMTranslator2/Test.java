@@ -9,14 +9,14 @@ public class Test
 
 	public static void main(String[] args)
 	{
-		String root = "C:\\Program Files\\GreenSoftware\\nand2tetris\\nand2tetris\\projects\\08\\FunctionCalls\\SimpleFunction";
+		String root = "C:\\Program Files\\GreenSoftware\\nand2tetris\\nand2tetris\\projects\\08\\FunctionCalls\\NestedCall";
 		test(root);
 	}
 
 	private static void test(String str)
 	{
 		File file = new File(str);
-		if(!file.exists())
+		if (!file.exists())
 		{
 			System.out.println("Failed to read file:" + file);
 			System.exit(0);
@@ -25,21 +25,25 @@ public class Test
 		{
 			System.out.println("Dir: " + file.getAbsolutePath());
 			File[] vmFiles = file.listFiles(VM_FILTER);
+
+			File asmFile = new File(file.toString() + "/" + file.getName() + ".asm");
+			CodeWriter codeWriter = new CodeWriter(asmFile);
 			for (File f : vmFiles)
 			{
 				System.out.println("matches : " + f.getAbsolutePath());
-				Vmtranslator.newInstance().process(f.getAbsolutePath());
+				Vmtranslator.newInstance().process(f.getAbsolutePath(), codeWriter);
 			}
 		}
 		else if (file.isFile())
 		{
-			System.out.println("inFile: " + file.getAbsolutePath());
-			System.out.println("outFile: " + getFileName(file.getAbsolutePath()));
-			if (file.getAbsolutePath().endsWith(".vm"))
-			{
-				System.out.println("matches : " + file.getAbsolutePath());
-				Vmtranslator.newInstance().process(file.getAbsolutePath());
-			}
+			// System.out.println("inFile: " + file.getAbsolutePath());
+			// System.out.println("outFile: " +
+			// getFileName(file.getAbsolutePath()));
+			// if (file.getAbsolutePath().endsWith(".vm"))
+			// {
+			// System.out.println("matches : " + file.getAbsolutePath());
+			// Vmtranslator.newInstance().process(file.getAbsolutePath());
+			// }
 
 		}
 	}
@@ -50,6 +54,12 @@ public class Test
 		return in.substring(0, indext) + ".asm";
 	}
 
+	/**
+	 * 文件过滤器
+	 * 
+	 * @author Administrator
+	 *
+	 */
 	private static class VMFileFilter implements FilenameFilter
 	{
 		@Override

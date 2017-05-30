@@ -13,10 +13,9 @@ public class Vmtranslator
 		return INSTANCE;
 	}
 
-	public void process(String file)
+	public void process(String file, CodeWriter codeWriter)
 	{
-		CodeWriter codeWriter = new CodeWriter(file);
-//		codeWriter.writeInit();
+		codeWriter.writeInit();
 
 		try (BufferedReader br = new BufferedReader(new FileReader(file)))
 		{

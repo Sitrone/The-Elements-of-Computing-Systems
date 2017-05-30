@@ -40,11 +40,10 @@ public class CodeWriter
 	 * 
 	 * @param file
 	 */
-	public CodeWriter(String file)
+	public CodeWriter(File outPutFile)
 	{
 		try
 		{
-			String outPutFile = setFileName(file);
 			bw = new BufferedWriter(new FileWriter(outPutFile));
 			this.functionName = "Main";
 		}
@@ -154,7 +153,7 @@ public class CodeWriter
 		switch (stackCmd)
 		{
 		case PUSH:
-			conbinationCmd.append("//Push");
+			conbinationCmd.append("// Push");
 			switch (stackSegment)
 			{
 			case ARGUMENT:
@@ -194,7 +193,7 @@ public class CodeWriter
 			}
 			break;
 		case POP:
-			conbinationCmd.append("//Pop");
+			conbinationCmd.append("// Pop");
 			switch (stackSegment)
 			{
 			case ARGUMENT:
